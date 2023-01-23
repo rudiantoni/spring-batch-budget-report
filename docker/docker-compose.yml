@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  batch_database:
+    container_name: ${DATABASE_CONTAINER_NAME}
+    image: postgres:15
+    environment:
+      - "POSTGRES_DB=${DB_METADATA_DATABASE}"
+      - "POSTGRES_USER=${DB_METADATA_USERNAME}"
+      - "POSTGRES_PASSWORD=${DB_METADATA_PASSWORD}"
+      - "DB_DATASOURCE_DATABASE=${DB_DATASOURCE_DATABASE}"
+      - "DB_DATASOURCE_USERNAME=${DB_DATASOURCE_USERNAME}"
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: psql --echo-all --username ${DB_DATASOURCE_USERNAME} --dbname ${DB_DATASOURCE_DATABASE} --command="SELECT VERSION();"
+      interval: 10s
+      retries: 15
+      start_period: 5s
+      timeout: 20s
+    volumes:
+      - ${DB_INIT_FILES}:/docker-entrypoint-initdb.d/
+  batch_application:
+    container_name: ${APPLICATION_CONTAINER_NAME}
+    image: ${APPLICATION_IMAGE_NAME}
+    depends_on:
+      batch_database:
+        condition: service_healthy
+    environment:
+      - "PROFILE=${CURRENT_PROFILE}"
+      - "BATCH_META_DB_HOST=${DB_METADATA_HOST}"
+      - "BATCH_META_DB_PORT=${DB_METADATA_PORT}"
+      - "BATCH_META_DB_NAME=${DB_METADATA_DATABASE}"
+      - "BATCH_META_DB_USER=${DB_METADATA_USERNAME}"
+      - "BATCH_META_DB_PASS=${DB_METADATA_PASSWORD}"
+      - "BATCH_DATA_DB_HOST=${DB_DATASOURCE_HOST}"
+      - "BATCH_DATA_DB_PORT=${DB_DATASOURCE_PORT}"
+      - "BATCH_DATA_DB_NAME=${DB_DATASOURCE_DATABASE}"
+      - "BATCH_DATA_DB_USER=${DB_DATASOURCE_USERNAME}"
+      - "BATCH_DATA_DB_PASS=${DB_DATASOURCE_PASSWORD}"
+      - "DATASOURCE_FILES_PATH=${DATASOURCE_FILES_PATH}"
+      - "USE_FILE=${USE_FILE}"
+    volumes:
+      - ${CUSTOMER_FILE_VOLUME}:/opt/app/datasource_files

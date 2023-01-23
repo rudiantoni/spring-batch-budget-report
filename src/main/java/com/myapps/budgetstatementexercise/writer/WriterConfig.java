@@ -27,9 +27,8 @@ public class WriterConfig {
     @Bean
     public ItemWriter<BudgetCategory> budgetReportWriter() {
         return items -> {
+            System.out.println("---- Budget report ----");
             for(BudgetCategory item: items) {
-
-                System.out.println("---- Demonstrativo orçamentário ----");
                 System.out.println(String.format("[%d] %s - %s",
                     item.getExpenseCategoryCode(),
                     item.getExpenseCategoryDescription(),
@@ -46,7 +45,7 @@ public class WriterConfig {
 
                 }
                 else {
-                    System.out.println("\tNenhum lançamento localizado para a categoria.");
+                    System.out.println("\tNo appointment found for the category.");
                 }
             }
         };

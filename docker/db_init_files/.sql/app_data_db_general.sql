@@ -1,36 +1,36 @@
--- TABELA
--- Cria tabela "lancamento"
--- Usada como fonte de dados da aplicação
-CREATE TABLE public.lancamento (
+-- TABLE
+-- Create table "appointment"
+-- Used as application datasource
+CREATE TABLE public.appointment (
     id int4 NOT NULL,
-	codigo_natureza_despesa int8,
-    descricao_natureza_despesa varchar(100),
-    descricao_lancamento varchar(100),
-    data_lancamento date,
-    valor_lancamento real,
+	expenditure_nature_code int8,
+    expenditure_nature_description varchar(100),
+    appointment_description varchar(100),
+    appointment_date date,
+    appointment_value real,
 
-	CONSTRAINT pk_lancamento PRIMARY KEY (id),
-	CONSTRAINT uk_lancamento_id UNIQUE (id)
+	CONSTRAINT pk_appointment PRIMARY KEY (id),
+	CONSTRAINT uk_appointment_id UNIQUE (id)
 );
 
--- Cria a sequencia "lancamento_id_seq" para a tabela "lancamento"
-CREATE SEQUENCE public.lancamento_id_seq
--- Usar o mesmo tipo da coluna que vai usar a sequencia
+-- Create sequence "appointment_id_seq" for "appointment" table
+CREATE SEQUENCE public.appointment_id_seq
+-- Use the same data type as the column that will use (own) the sequence values
 AS int4
 INCREMENT 1
 MINVALUE 1
 NO MAXVALUE
 NO CYCLE
 START WITH 1
--- Coluna que vai usar a sequenca
-OWNED BY public.lancamento.id;
+-- Column that will use the sequence
+OWNED BY public.appointment.id;
 
--- Altera o valor padrao da coluna que usa a sequencia para usar a sequencia
-ALTER TABLE public.lancamento ALTER COLUMN id SET DEFAULT nextval('lancamento_id_seq'::regclass);
+-- Changes sequence column standard value to admit the sequence value
+ALTER TABLE public.appointment ALTER COLUMN id SET DEFAULT nextval('appointment_id_seq'::regclass);
 
--- DADOS
--- Inserir dados na tabela "lancamento"
-INSERT INTO public.lancamento (codigo_natureza_despesa, descricao_natureza_despesa, descricao_lancamento, data_lancamento, valor_lancamento)
+-- DATA
+-- Insert data at "appointment" table
+INSERT INTO public.appointment (expenditure_nature_code, expenditure_nature_description, appointment_description, appointment_date, appointment_value)
 VALUES
 (44905224,'EQUIPAMENTO DE PROTEÇÃO SEGURANÇA E SOCORRO','Alarme','2020-05-01',1000),
 (44905287,'MATERIAL DE CONSUMO DE USO DURADOURO','Cortina de sala','2020-05-02',1000),
