@@ -46,11 +46,11 @@ public class JdbcReaderConfig {
     private PostgresPagingQueryProvider pgQueryProvider() throws Exception {
         Map<String, Order> sortKeys = new HashMap<>();
         sortKeys.put("id", Order.ASCENDING);
-        sortKeys.put("codigo_natureza_despesa", Order.ASCENDING);
+        sortKeys.put("expenditure_nature_code", Order.ASCENDING);
 
         PostgresPagingQueryProvider queryProvider = new PostgresPagingQueryProvider();
         queryProvider.setSelectClause("select *");
-        queryProvider.setFromClause("from public.lancamento");
+        queryProvider.setFromClause("from public.appointment");
         queryProvider.setSortKeys(sortKeys);
         queryProvider.init(dataSource);
 
@@ -63,11 +63,11 @@ public class JdbcReaderConfig {
             @Override
             public BudgetItem mapRow(ResultSet rs, int rowNum) throws SQLException {
                 BudgetItem budgetItem = new BudgetItem();
-                budgetItem.setExpenseCategoryCode(rs.getLong("codigo_natureza_despesa"));
-                budgetItem.setExpenseCategoryDescription(rs.getString("descricao_natureza_despesa"));
-                budgetItem.setItemDescription(rs.getString("descricao_lancamento"));
-                budgetItem.setItemDate(LocalDate.parse(rs.getString("data_lancamento"), dateTimeFormatter));
-                budgetItem.setItemValue(rs.getFloat("valor_lancamento"));
+                budgetItem.setExpenseCategoryCode(rs.getLong("expenditure_nature_code"));
+                budgetItem.setExpenseCategoryDescription(rs.getString("expenditure_nature_description"));
+                budgetItem.setItemDescription(rs.getString("appointment_description"));
+                budgetItem.setItemDate(LocalDate.parse(rs.getString("appointment_date"), dateTimeFormatter));
+                budgetItem.setItemValue(rs.getFloat("appointment_value"));
                 return budgetItem;
             }
 

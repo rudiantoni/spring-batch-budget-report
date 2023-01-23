@@ -32,6 +32,7 @@ public class StepConfig {
     ) {
 
         if (useFile) {
+            System.out.println("Using file as datasource.");
             return stepBuilderFactory
                 .get("budgetStatementStep")
                 .chunk(1)
@@ -39,6 +40,7 @@ public class StepConfig {
                 .writer(budgetReportWriter)
                 .build();
         } else {
+            System.out.println("Using database as datasource.");
             return stepBuilderFactory
                 .get("budgetStatementStep")
                 .chunk(1)
