@@ -50,4 +50,4 @@
 
 Log image with working example:
 - **Linux**: [spring-batch-budget-report](https://i.imgur.com/RXUcnVS.png)
-- **Windows**: [spring-batch-budget-report](xxx)
+- **Windows**: [spring-batch-budget-report](https://i.imgur.com/ZBuNa3V.png)
